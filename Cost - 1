@@ -1,0 +1,165 @@
+  const cost = function(isLarge, isPhysical, pages, claims, isPub, isExam, isFast, dates){
+    int total = 0;
+    if (isLarge==0){
+      // check type of organization
+      if (isPhysical==0) {
+        // for email filing
+        if (isFast ==0) {
+          //  normal case
+          if (pages <= 30) { //criteria for pages
+            total = 1600;
+          }
+          else {
+            total = 1600 + (pages - 30)*160;
+          }
+          
+          if (claims >=10){  //criteria for claims
+            total += 320*(claims - 10);
+          }
+          
+          if (isPub){
+            total += 2500;
+          }
+          
+          if (isExam){
+            total += 4000;
+          }
+          
+          total *= dates;
+        }
+        else if (isFast) {
+          //  fast case
+          if (pages <= 30) { //criteria for pages
+            total = 1600;
+          }
+          else {
+            total = 1600 + (pages - 30)*160;
+          }
+          
+          if (claims >=10){  //criteria for claims
+            total += 320*(claims - 10);
+          }
+          
+          if (isPub){
+            total += 2500;
+          }
+          
+          if (isExam){
+            total += 8000;
+          }
+          
+          total *= dates;
+        }
+      }
+      else if (isPhysical) {
+        //  for physical filing
+        if (isFast ==0) {
+          //  normal case
+          if (pages <= 30) { //criteria for pages
+            total = 1750;
+          }
+          else {
+            total = 1750 + (pages - 30)*180;
+          }
+          
+          if (claims >=10){  //criteria for claims
+            total += 350*(claims - 10);
+          }
+          
+          if (isPub){
+            total += 2750;
+          }
+          
+          if (isExam){
+            total += 4400;
+          }
+          
+          total *= dates;
+        }
+        else if (isFast) {
+          //  fast case
+          console.log('Inapplicable');
+    }
+    else if (isLarge)  // check type of organization
+      if (isPhysical==0) {
+        // for e filing
+        if (isFast ==0) {
+          //  normal case
+          if (pages <= 30) { //criteria for pages
+            total = 8000;
+          }
+          else {
+            total = 8000 + (pages - 30)*800;
+          }
+          
+          if (claims >=10){  //criteria for claims
+            total += 1600*(claims - 10);
+          }
+          
+          if (isPub){
+            total += 12500;
+          }
+          
+          if (isExam){
+            total += 20000;
+          }
+          
+          total *= dates;
+        }
+        else if (isFast) {
+          //  fast case
+          if (pages <= 30) { //criteria for pages
+            total = 8000;
+          }
+          else {
+            total = 8000 + (pages - 30)*800;
+          }
+          
+          if (claims >=10){  //criteria for claims
+            total += 1600*(claims - 10);
+          }
+          
+          if (isPub){
+            total += 12500;
+          }
+          
+          if (isExam){
+            total += 20000;
+          }
+          
+          total *= dates;
+        }
+      }
+      else if (isPhysical) {
+        //  for physical filing
+        if (isFast ==0) {
+          //  normal case
+          if (pages <= 30) { //criteria for pages
+            total = 8800;
+          }
+          else {
+            total = 8800 + (pages - 30)*880;
+          }
+          
+          if (claims >=10){  //criteria for claims
+            total += 1750*(claims - 10);
+          }
+          
+          if (isPub){
+            total += 13750;
+          }
+          
+          if (isExam){
+            total += 22000;
+          }
+          
+          total *= dates;
+        }
+        else if (isFast) {
+          //  fast case
+          console.log('Inapplicable');
+    }
+  }
+  const totalcost = cost(1,1,30,1,1,1,1,1);
+  console.log(totalcost);
+ 
