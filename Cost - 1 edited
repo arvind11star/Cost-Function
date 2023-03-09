@@ -1,0 +1,303 @@
+// App.js for COST FUNCTION - Need to use a hook and SetTotal
+
+import React, {useState} from 'react'
+import './index.css'
+
+function App() {
+  const [pages, SetPages] = useState(0)
+  const [claims, SetClaims] = useState(0)
+  const [dates, SetDates] = useState(0)
+  const [Filing_Type, SetFiling_Type] = useState('');
+  const [Org_Type, SetOrg_Type] = useState('');
+  const [Speed_Type, SetSpeed_Type] = useState('');
+  const [Pub, Set_Pub] = useState(0);
+  const [Exam, Set_Exam] = useState(0);
+  const [total_cost, SetTotal_cost] = useState();
+  const [message, SetMessage] = useState('');
+
+  let calcTotal = (event) => {
+    event.preventDefault()
+    if(Speed_Type === 1 && Filing_Type === 'Physical'){
+      alert('Inapplicable')
+    }
+
+    if(pages===0 && claims===0 || dates===0){
+      alert('Please enter valid inputs')
+    }
+    else{
+      if(Org_Type === 'Small'){
+        if(Filing_Type === 'Email'){
+          if(Speed_Type === 'Regular'){
+            //Email, regular process, small
+            if (pages <= 30) { //criteria for pages
+              total_cost += 1600;
+            }
+            else {
+              total_cost += 1600 + (pages - 30)*160;
+            }
+            
+            if (claims >=10){  //criteria for claims
+              total_cost += 320*(claims - 10);
+            }
+
+            if(Pub === 1){
+              total_cost += 2500;
+            }  
+
+            if(Exam === 1){
+              total_cost += 4000;
+            }
+          }
+          else{ //Email filing with fast track, small, 
+            if (pages <= 30) { //criteria for pages
+              total_cost += 1600;
+            }
+            else {
+              total_cost += 1600 + (pages - 30)*160;
+            }
+            
+            if (claims >=10){  //criteria for claims
+              total_cost += 320*(claims - 10);
+            }
+
+            if(Pub === 1){
+              total_cost += 2500;
+            }  
+
+            if(Exam === 1){
+              total_cost += 8000;
+            }
+          }
+        }
+        else { //Physical, regular, small
+          if (pages <= 30) { //criteria for pages
+            total_cost += 1750;
+          }
+          else {
+            total_cost += 1750 + (pages - 30)*180;
+          }
+          
+          if (claims >=10){  //criteria for claims
+            total_cost += 360*(claims - 10);
+          }
+
+          if(Pub === 1){
+            total_cost += 2750;
+          }  
+
+          if(Exam === 1){
+            total_cost += 4400;
+          }
+        }
+      }
+      else {
+        if(Filing_Type === 'Email'){
+          if(Speed_Type === 'Regular'){
+            //Large, regular, Email
+            if (pages <= 30) { 
+              total_cost += 8000;
+            }
+            else {
+              total_cost += 8000 + (pages - 30)*800;
+            }
+            
+            if (claims >=10){  //criteria for claims
+              total_cost += 1600*(claims - 10);
+            }
+
+            if(Pub === 1){
+              total_cost += 12500;
+            }  
+
+            if(Exam === 1){
+              total_cost += 20000;
+            }
+          }
+          else{ //Large, Email, Fast 
+            if (pages <= 30) { //criteria for pages
+              total_cost += 8000;
+            }
+            else {
+              total_cost += 8000 + (pages - 30)*800;
+            }
+            
+            if (claims >=10){  //criteria for claims
+              total_cost += 1600*(claims - 10);
+            }
+
+            if(Pub === 1){
+              total_cost += 12500;
+            }  
+
+            if(Exam === 1){
+              total_cost += 60000;
+            }
+          }
+        }
+        else { //Physical, regular, large
+          if (pages <= 30) { //criteria for pages
+            total_cost += 1750;
+          }
+          else {
+            total_cost += 1750 + (pages - 30)*880;
+          }
+          
+          if (claims >=10){  //criteria for claims
+            total_cost += 1750*(claims - 10);
+          }
+
+          if(Pub === 1){
+            total_cost += 2750;
+          }  
+
+          if(Exam === 1){
+            total_cost += 22000;
+          }
+        }
+      }
+      total_cost *= dates;
+    }
+    total_cost = SetTotal_cost;
+  }
+
+  let reload = () =>{
+    window.location.reload()
+  }
+
+  return (
+      <div className = 'Cost'>
+        <h1> Welcome! </h1>
+        <div className='Container'>
+          <h2 className='center'> Cost Calculator</h2>
+          <form onSubmit={calcTotal}>
+            <div>
+              <label>Number of pages</label>
+              <input value = {pages} onChange = {(event) => SetPages(event.target.value)}/>
+            </div>
+            <div>
+              <label>Number of claims</label>
+              <input value = {claims} onChange = {(event) => SetClaims(event.target.value)}/>
+            </div>
+            <div>
+              <label>Number of priority dates</label>
+              <input value = {dates} onChange = {(event) => SetDates(event.target.value)}/>
+            </div>
+            <div>
+              <button className='btn' type = 'submit'>Submit</button>
+              <button className='btn btn-outline' type = 'submit' onClick={reload}>Reload</button>
+            </div>
+            <div>
+              <label> Type of filing </label>
+              <select value={Filing_Type} onChange={e=>SetFiling_Type(e.target.value)}>
+                <option></option>
+                <option value='Physical'>Physical</option>
+                <option value='Email'>Email</option>
+              </select>
+            </div>
+            <div>
+              <label> Speed of filing </label>
+              <select value={Speed_Type} onChange={e=>SetSpeed_Type(e.target.value)}>
+                <option value='Expedited'>Expedited</option>
+                <option value='Regular'>Regular</option>
+              </select>
+            </div>
+            <div>
+              <label> Type of entity </label>
+              <select value={Org_Type} onChange={e=>SetOrg_Type(e.target.value)}>
+                <option value='Large'>Large</option>
+                <option value='Small'>Medium/Small</option>
+              </select>
+            </div>
+            <div>
+              <label> Publication </label>
+              <select value={Pub} onChange={e=>Set_Pub(e.target.value)}>
+                <option value={1}>Publish</option>
+                <option value={0}>Skip</option>
+              </select>
+            </div>
+            <div>
+              <label> Examination </label>
+              <select value={Exam} onChange={e=>Set_Exam(e.target.value)}>
+                <option value={1}>Request for Examination</option>
+                <option value={0}>Skip</option>
+              </select>
+            </div>
+          </form>
+          <div>
+            <div className='center'>
+              <h1> Total cost of patent processing is {total_cost}</h1>
+              <p>{message}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+}
+
+export default App;
+
+
+
+
+
+index.css
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100;
+  height: 100;
+
+}
+
+.container {
+  box-shadow: 0px 0px 12px #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.input {
+  width: 100;
+  font-size: 1.2rem;
+  padding: 8px 4px;
+  margin: 8px 0;
+  border-radius: 8px;
+}
+
+.btn {
+  display: block;
+  font-size: 1.2rem;
+  margin: 8px 0;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: solid #333;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.center {
+  text-align: center;
+  margin: 24px 0;
+}
+
+.p {
+  margin: 10px 0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
